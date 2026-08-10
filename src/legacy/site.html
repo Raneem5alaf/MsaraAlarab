@@ -437,6 +437,22 @@
   </div>
 </div>
 
+<!-- ================= ORDER CANCEL CONFIRMATION ================= -->
+<div class="confirm-modal-backdrop" id="orderCancelBackdrop"></div>
+<div class="confirm-modal" id="orderCancelModal" role="dialog" aria-modal="true" aria-labelledby="orderCancelTitle" aria-describedby="orderCancelText">
+  <div class="confirm-modal-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.6 2.9 17a2 2 0 0 0 1.75 3h14.7a2 2 0 0 0 1.75-3l-7.4-13.4a2 2 0 0 0-3.4 0Z"/>
+    </svg>
+  </div>
+  <h3 id="orderCancelTitle">هل تريد إلغاء الطلب؟</h3>
+  <p id="orderCancelText">سيتم فقدان المنتجات التي اخترتها وتقدم الطلب. يمكنك العودة للطلب إذا اخترت المتابعة.</p>
+  <div class="confirm-modal-actions">
+    <button type="button" class="btn btn-ghost" id="keepOrderBtn">متابعة الطلب</button>
+    <button type="button" class="btn btn-danger" id="confirmCancelOrderBtn">تأكيد الإلغاء</button>
+  </div>
+</div>
+
 <!-- ================= AUTH MODAL (Registration + OTP Login) ================= -->
 <div class="auth-modal-backdrop" id="authModalBackdrop"></div>
 <div class="auth-modal" id="authModal" role="dialog" aria-modal="true">

@@ -405,21 +405,67 @@
       renderProducts();
       goToStep(1);
     }
+    const cancelBackdrop = document.getElementById('orderCancelBackdrop');
+    const cancelModal = document.getElementById('orderCancelModal');
+    const keepOrderBtn = document.getElementById('keepOrderBtn');
+    const confirmCancelOrderBtn = document.getElementById('confirmCancelOrderBtn');
+
     function closeModal(){
       backdrop.classList.remove('is-open');
       modal.classList.remove('is-open');
+      cancelBackdrop?.classList.remove('is-open');
+      cancelModal?.classList.remove('is-open');
       document.body.style.overflow = '';
     }
 
+    function hasPendingOrder(){
+      return cartCount() > 0 || document.querySelector('.order-panel.is-active')?.id !== 'orderPanel1';
+    }
+
+    function showCancelConfirmation(){
+      if (!cancelModal || !cancelBackdrop) {
+        closeModal();
+        return;
+      }
+      cancelBackdrop.classList.add('is-open');
+      cancelModal.classList.add('is-open');
+    }
+
+    function confirmCancelOrder(){
+      Object.keys(cart).forEach(k => delete cart[k]);
+      closeModal();
+      goToStep(1);
+      renderProducts();
+    }
+
     openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    backdrop.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', () => {
+      if (hasPendingOrder()) showCancelConfirmation();
+      else closeModal();
+    });
+    backdrop.addEventListener('click', () => {
+      if (hasPendingOrder()) showCancelConfirmation();
+      else closeModal();
+    });
+    keepOrderBtn?.addEventListener('click', () => {
+      cancelBackdrop?.classList.remove('is-open');
+      cancelModal?.classList.remove('is-open');
+    });
+    confirmCancelOrderBtn?.addEventListener('click', confirmCancelOrder);
     closeFinalBtn.addEventListener('click', () => {
       closeModal();
       Object.keys(cart).forEach(k => delete cart[k]);
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      if (e.key !== 'Escape') return;
+      if (cancelModal?.classList.contains('is-open')) {
+        keepOrderBtn?.click();
+        return;
+      }
+      if (modal.classList.contains('is-open')) {
+        if (hasPendingOrder()) showCancelConfirmation();
+        else closeModal();
+      }
     });
 
     document.getElementById('toStep2').addEventListener('click', () => { renderReview(); goToStep(2); });
@@ -478,7 +524,15 @@
     closeBtn.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      if (e.key !== 'Escape') return;
+      if (cancelModal?.classList.contains('is-open')) {
+        keepOrderBtn?.click();
+        return;
+      }
+      if (modal.classList.contains('is-open')) {
+        if (hasPendingOrder()) showCancelConfirmation();
+        else closeModal();
+      }
     });
 
     // Main tabs: تسجيل حساب / تسجيل الدخول
